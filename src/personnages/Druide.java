@@ -37,4 +37,6 @@ public class Druide extends Gaulois {
 	protected String prendreParole() {
 		return "Le druide " + nom + " : ";
 	}
+	
+	
 }
