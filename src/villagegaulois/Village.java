@@ -1,5 +1,7 @@
 package villagegaulois;
 
+import java.nio.file.attribute.AclEntry;
+
 import personnages.Chef;
 import personnages.Gaulois;
 
@@ -14,7 +16,8 @@ public class Village {
 	public Village(String nom, int nbVillageoisMaximum, int nombreEtal) {
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
-		this.nombreEtal =nombreEtal; 
+		this.nombreEtal = nombreEtal;
+		this.marche = new Marche(nombreEtal);
 	}
 
 	public String getNom() {
@@ -58,6 +61,38 @@ public class Village {
 		return chaine.toString();
 	}
 
+	// a
+	public String installerVendeur(Gaulois vendeur, String produit, int nbProduit) {
+		StringBuilder chaine = new StringBuilder();
+		int indiceEtalLibre = marche.trouverEtalLibre();
+		if (indiceEtalLibre != -1) {
+			marche.utiliserEtal(indiceEtalLibre, vendeur, produit, nbProduit);
+			chaine.append("Le vendeur " + vendeur + " vend des " + produit + " à l'étal n°"+ indiceEtalLibre);
+		}
+		chaine.append(vendeur + " cherche un endroit pour vendre " + nbProduit + " " + produit + ".\n");
+		return chaine.toString();
+	}
+	
+	//b
+	public String rechercherVendeursProduit(String produit) {
+		StringBuilder chaine = new StringBuilder();
+		Etal[] lstEtalProduit = marche.trouverEtals(produit);
+		if(lstEtalProduit.length == 0) {
+			chaine.append("Il n'y a pas de vendeur qui propose des fleurs au marché. \n");
+		}else if(lstEtalProduit.length == 1) {
+			Gaulois vendeur= lstEtalProduit[0].getVendeur();
+			chaine.append("Seul le vendeur " + vendeur + " propose des " + produit + " au marché");
+		}else {
+			Gaulois vendeur;
+			chaine.append("Les vendeurs qui proposent des fleurs sont : \n");
+			for (int i = 0 ; i < lstEtalProduit.length ; i++) {
+				vendeur = lstEtalProduit[i].getVendeur();
+				chaine.append("- "+ vendeur +"\n");
+			}
+		}
+;		return chaine.toString();
+	}
+
 	// classe interne Marche
 	public class Marche {
 		private Etal[] etals;
@@ -71,6 +106,7 @@ public class Village {
 		}
 
 		// 3
+		// permettant à un gaulois de s’installer à un étal.
 		public void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
 			if (indiceEtal >= 0 && indiceEtal < etals.length) {
 				Etal etal = etals[indiceEtal];
@@ -79,6 +115,7 @@ public class Village {
 		}
 
 		// 4
+		//permettant de trouver un étal non occupé dans le tableau etals
 		public int trouverEtalLibre() {
 			for (int i = 0; i < etals.length; i++) {
 				if (etals[i].isEtalOccupe() == false) {
@@ -89,6 +126,7 @@ public class Village {
 		}
 
 		// 5
+		//qui retourne un tableau contenant tous les étals où l’on vend un produit.
 		public Etal[] trouverEtals(String produit) {
 			int nombreEtalProduit = 0;
 			for (int i = 0; i < etals.length; i++) {
@@ -97,9 +135,9 @@ public class Village {
 				}
 			}
 			Etal[] etalProduit = new Etal[nombreEtalProduit];
-
+			int i = 0;
 			for (int y = 0; y < etals.length; y++) {
-				int i = 0;
+				
 				if (etals[y].contientProduit(produit)) {
 					etalProduit[i] = etals[y];
 					i += 1;
@@ -109,6 +147,7 @@ public class Village {
 		}
 
 		// 6
+		//qui retourne l’étal sur lequel s’est installé le vendeur passé en paramètre d’entrée ou null s’il n’y en a pas.
 		public Etal trouverVendeur(Gaulois gaulois) {
 			for (int i = 0; i < etals.length; i++) {
 				if (etals[i].getVendeur() == gaulois) {
@@ -129,7 +168,7 @@ public class Village {
 					nbEtalVide += 1;
 				}
 			}
-			chaine.append("Il reste " + nbEtalVide + " �tals non utilis�s dans le march�.\n");
+			chaine.append("Il reste " + nbEtalVide + " étals non utilis�s dans le marché.\n");
 			return chaine.toString();
 		}
 	}
