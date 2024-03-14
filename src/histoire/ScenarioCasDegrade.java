@@ -13,7 +13,12 @@ public class ScenarioCasDegrade {
 		Etal etal = new Etal();
 		Gaulois asterix = new Gaulois("Astérix", 8);
 		Gaulois obelix = new Gaulois("Obélix", 25);
-		etal.libererEtal(); 
+		try {
+			etal.libererEtal();	
+		}catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		 
 		try {
 			etal.occuperEtal(asterix, "potion", 10);
 			etal.acheterProduit(5, obelix);

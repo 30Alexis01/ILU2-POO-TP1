@@ -106,7 +106,14 @@ public class Village {
 		StringBuilder chaine = new StringBuilder();
 		Etal etalvendeur = rechercherEtal(vendeur);
 		if (etalvendeur != null) {
-			chaine.append(etalvendeur.libererEtal());
+			String temp = null;
+			try {
+				temp = etalvendeur.libererEtal();
+			}catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				return "";
+			}
+			chaine.append(temp);
 		}else {
 			chaine.append("Le vendeur " + vendeur.getNom() + " n'occupe aucun étal.");
 		}
