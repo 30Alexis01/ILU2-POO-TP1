@@ -1,7 +1,12 @@
 package villagegaulois;
 
 public class VillageSansChefException extends Exception {
-    public VillageSansChefException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public VillageSansChefException(String message) {
         super(message);
     }
 }

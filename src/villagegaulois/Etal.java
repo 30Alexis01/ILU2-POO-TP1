@@ -35,24 +35,26 @@ public class Etal {
 
 	public String libererEtal() {
 		if (!etalOccupe) {
-			throw new NullPointerException("Cet étal n'a pas été occupé.");
+			throw new IllegalArgumentException("Cet étal n'a pas été occupé.");
 		}
-		
+
 		etalOccupe = false;
-		String  temp;
+		String temp;
+		StringBuilder chaine = new StringBuilder();
 		try {
-			 temp =vendeur.getNom();
-		}catch(NullPointerException e) {
+			temp = vendeur.getNom();
+			chaine.append("Le vendeur " + temp + " quitte son étal, ");
+			int produitVendu = quantiteDebutMarche - quantite;
+			if (produitVendu > 0) {
+				chaine.append("il a vendu " + produitVendu + " parmi " + produit + ".\n");
+			} else {
+				chaine.append("il n'a malheureusement rien vendu.\n");
+			}
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return "";
 		}
-		StringBuilder chaine = new StringBuilder("Le vendeur " + temp + " quitte son étal, ");
-		int produitVendu = quantiteDebutMarche - quantite;
-		if (produitVendu > 0) {
-			chaine.append("il a vendu " + produitVendu + " parmi " + produit + ".\n");
-		} else {
-			chaine.append("il n'a malheureusement rien vendu.\n");
-		}
+
 		return chaine.toString();
 	}
 
