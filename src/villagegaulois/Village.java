@@ -137,11 +137,11 @@ public class Village {
 	}
 
 	// classe interne Marche
-	public class Marche {
+	public static class Marche {
 		private Etal[] etals;
 
 		// 2
-		public Marche(int nombreEtal) {
+		private Marche(int nombreEtal) {
 			etals = new Etal[nombreEtal];
 			for (int i = 0; i < etals.length; i++) {
 				etals[i] = new Etal();
@@ -150,7 +150,7 @@ public class Village {
 
 		// 3
 		// permettant à un gaulois de s’installer à un étal.
-		public void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+		private void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
 			if (indiceEtal >= 0 && indiceEtal < etals.length) {
 				Etal etal = etals[indiceEtal];
 				etal.occuperEtal(vendeur, produit, nbProduit);
@@ -159,7 +159,7 @@ public class Village {
 
 		// 4
 		//permettant de trouver un étal non occupé dans le tableau etals
-		public int trouverEtalLibre() {
+		private int trouverEtalLibre() {
 			for (int i = 0; i < etals.length; i++) {
 				if (etals[i].isEtalOccupe() == false) {
 					return i;
@@ -170,7 +170,7 @@ public class Village {
 
 		// 5
 		//qui retourne un tableau contenant tous les étals où l’on vend un produit.
-		public Etal[] trouverEtals(String produit) {
+		private Etal[] trouverEtals(String produit) {
 			int nombreEtalProduit = 0;
 			for (int i = 0; i < etals.length; i++) {
 				if (etals[i].isEtalOccupe()) {
@@ -194,7 +194,7 @@ public class Village {
 
 		// 6
 		//qui retourne l’étal sur lequel s’est installé le vendeur passé en paramètre d’entrée ou null s’il n’y en a pas.
-		public Etal trouverVendeur(Gaulois gaulois) {
+		private Etal trouverVendeur(Gaulois gaulois) {
 			for (int i = 0; i < etals.length; i++) {
 				if (etals[i].getVendeur() == gaulois) {
 					return etals[i];
@@ -204,7 +204,7 @@ public class Village {
 		}
 
 		// 7
-		public String afficherMarche() {
+		private String afficherMarche() {
 			StringBuilder chaine = new StringBuilder();
 			int nbEtalVide = 0;
 			for (int i = 0; i < etals.length; i++) {
